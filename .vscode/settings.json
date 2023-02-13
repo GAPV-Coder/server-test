@@ -1,5 +1,16 @@
 {
-    "editor.formatOnPaste": true,
+    "files.eol": "\r\n",
+    /*   "prettier.configPath": ".prettierrc", */
+    "editor.formatOnPaste": false,
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    /*"editor.defaultFormatter": "dbaeumer.vscode-eslint", */
+    /*  "prettier.ignorePath": ".prettierignore", */
+    "eslint.run": "onSave",
+    "eslint.format.enable": true,
+    "eslint.alwaysShowStatus": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    }
 }
