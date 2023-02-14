@@ -1,7 +1,5 @@
 const { check } = require('express-validator');
 
-const { findMatch } = require('../services/user.service');
-
 const { validateResult } = require('../middlewares/validateResult');
 
 const validateRegisterFields = [
@@ -28,14 +26,6 @@ const validateRegisterFields = [
         .isEmail()
         .withMessage('Enter a email valid format')
         .bail()
-        .custom(async (value) => {
-            const matchedUser = await findMatch({ email: value });
-            if (matchedUser) {
-                throw new Error('User email already exists');
-            } else {
-                return true;
-            }
-        })
         .trim()
         .escape(),
 
@@ -83,13 +73,6 @@ const validateLoginFields = [
         .isEmail()
         .withMessage('Enter a email valid format')
         .bail()
-        .custom(async (value) => {
-            const matchedUser = await findMatch({ email: value });
-            if (matchedUser) {
-                return true;
-            }
-            throw new Error('Email is not registered');
-        })
         .trim()
         .escape(),
 
