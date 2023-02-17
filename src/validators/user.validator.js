@@ -44,7 +44,7 @@ const validateRegisterFields = [
         .trim()
         .escape(),
 
-    check('code', 'Enter zip code')
+    check('dni', 'Enter dni')
         .exists()
         .withMessage('Enter a valid format')
         .trim()
