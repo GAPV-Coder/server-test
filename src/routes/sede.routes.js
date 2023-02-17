@@ -25,7 +25,7 @@ const {
 // Apply protectToken middleware
 router.use(protectToken);
 
-router.get('/', protectAdmin, getAllSede);
+router.get('/', getAllSede);
 router.post('/', validateSedeFields, protectAdmin, createSede);
 router.delete('/:id', sedeExists, protectAdmin, deleteSede);
 router.patch('/:id', validateSedeFields, sedeExists, protectAdmin, updateSede);

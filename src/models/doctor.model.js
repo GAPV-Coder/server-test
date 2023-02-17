@@ -15,7 +15,7 @@ const Doctor = db.define('doctor', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    lasttName: {
+    lastName: {
         type: DataTypes.STRING,
         allowNull: false,
     },
