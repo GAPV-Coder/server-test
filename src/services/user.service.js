@@ -5,7 +5,7 @@ const { encryptPassword } = require('../helpers/bcrypt');
 const findById = async (id) => {
     const user = await User.findByPk({
         where: { id },
-        attributes: ['firstName', 'lastName', 'email', 'code', 'phone', 'role'],
+        attributes: ['firstName', 'lastName', 'email', 'dni', 'phone', 'role'],
     });
 
     return user;
@@ -16,7 +16,7 @@ const newUser = async ({
     lastName,
     email,
     password,
-    code,
+    dni,
     phone,
     role,
 }) => {
@@ -31,7 +31,7 @@ const newUser = async ({
         lastName,
         email,
         password: encrypted,
-        code,
+        dni,
         phone,
         role,
     });

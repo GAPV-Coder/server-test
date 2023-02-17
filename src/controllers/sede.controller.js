@@ -14,10 +14,7 @@ const getAllSede = catchAsync(async (req, res, next) => {
 
 const createSede = catchAsync(async (req, res, next) => {
     const { name, address, phone } = req.body;
-    console.log('name: ', name);
-    console.log('address: ', address);
-    console.log('phone: ', phone)
-    
+
     const sede = await Sede.create({
       name,
       address,

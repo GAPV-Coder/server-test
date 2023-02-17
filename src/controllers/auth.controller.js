@@ -6,6 +6,8 @@ const { comparePassword } = require('../helpers/bcrypt');
 
 const { newUser, findOneUser } = require('../services/user.service');
 
+const processMessage = require("../shared/processMessage");
+
 const registerUser = async (req, res) => {
     let data = {};
 
@@ -16,6 +18,13 @@ const registerUser = async (req, res) => {
             newUserResult.email,
             newUserResult.role
         );
+
+        // Add sede data to the req object
+        req.user = newUserResult;
+
+        const number = newUserResult.phone;
+
+        processMessage.firstProcess(number);
 
         data = {
             user: newUserResult,

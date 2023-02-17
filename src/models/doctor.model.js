@@ -28,10 +28,6 @@ const Doctor = db.define('doctor', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    code: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
     phone: {
         type: DataTypes.STRING,
         allowNull: false,

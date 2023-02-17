@@ -7,6 +7,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth.routes');
 const { sedeRouter }  = require('./routes/sede.routes');
 const { SpecialityRouter } = require('./routes/speciality.routes')
+const { whatsappRouter } = require("./routes/routes.whatsapp");
 
 app.use(cors());
 app.use(express.json());
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/sede', sedeRouter);
 app.use('/api/v1/speciality', SpecialityRouter);
+app.use("/whatsapp", whatsappRouter);
 
 // Models
 const { initModels } = require('./models/initModels');
