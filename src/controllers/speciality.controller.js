@@ -29,8 +29,6 @@ const createSpeciality = catchAsync(async (req, res, next) => {
 const deleteSpeciality = catchAsync(async (req, res, next) => {
     const { speciality } = req;
 
-    console.log('hello:::')
-
     await speciality.update({ active: false });
 
     res.status(201).json({

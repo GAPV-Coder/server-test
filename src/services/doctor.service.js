@@ -5,7 +5,14 @@ const { encryptPassword } = require('../helpers/bcrypt');
 const findById = async (id) => {
     const doctor = await Doctor.findByPk({
         where: { id, active: true },
-        attributes: ['firstName', 'lastName', 'email', 'codeId', 'phone', 'role'],
+        attributes: [
+            'firstName',
+            'lastName',
+            'email',
+            'codeId',
+            'phone',
+            'role',
+        ],
     });
 
     return doctor;
@@ -20,7 +27,7 @@ const newDoctor = async ({
     phone,
     role,
     specialityId,
-    sedeId
+    sedeId,
 }) => {
     const existingDoctor = await findOneDoctor(email);
     if (existingDoctor) {
@@ -37,7 +44,7 @@ const newDoctor = async ({
         phone,
         role,
         specialityId,
-        sedeId
+        sedeId,
     });
 };
 

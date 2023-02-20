@@ -6,7 +6,7 @@ const { comparePassword } = require('../helpers/bcrypt');
 
 const { newDoctor, findOneDoctor } = require('../services/doctor.service');
 
-const processMessage = require("../shared/processMessage");
+const processMessage = require('../shared/processMessage');
 
 const registerDoctor = async (req, res) => {
     let data = {};

@@ -17,7 +17,7 @@ const { globalErrorHandler } = require('./controllers/errors.controller');
 
 const authRoutes = require('./routes/auth.routes');
 const { sedeRouter }  = require('./routes/sede.routes');
-const { SpecialityRouter } = require('./routes/speciality.routes');
+const { SpecialityRouter } = require('./routes/speciality.routes')
 const { whatsappRouter } = require("./routes/routes.whatsapp");
 const { CodeRouter } = require('./routes/code.routes');
 const { DoctorRouter } = require('./routes/doctor.routes')
@@ -56,7 +56,7 @@ app.use('/api/v1/sede', sedeRouter);
 app.use('/api/v1/speciality', SpecialityRouter);
 app.use("/whatsapp", whatsappRouter);
 app.use('/api/v1/code', CodeRouter);
-app.use('/api/v1/doctor', DoctorRouter)
+app.use('/api/v1/doctor', DoctorRouter);
 
 // Global error handler
 app.use('*', globalErrorHandler);

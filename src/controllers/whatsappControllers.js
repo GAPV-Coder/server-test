@@ -18,7 +18,7 @@ const SendMessage = (req, res) => {
     }
 }
 
-const firstSendMessage = (req, res) => {
+const sendTemplateMessage = (req, res) => {
     try{
         const number = "51940179987"
 
@@ -33,5 +33,5 @@ const firstSendMessage = (req, res) => {
 
 module.exports = {
     SendMessage,
-    firstSendMessage
+    sendTemplateMessage
 }

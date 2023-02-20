@@ -5,6 +5,6 @@ const whatsAppController = require("../controllers/whatsappControllers");
 
 router
 .get("/send", whatsAppController.SendMessage)
-.get("/firstSend", whatsAppController.firstSendMessage)
+.get("/firstSend", whatsAppController.sendTemplateMessage)
 
 module.exports = { whatsappRouter: router };

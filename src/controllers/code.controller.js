@@ -30,9 +30,9 @@ const createCode= catchAsync(async (req, res, next) => {
   });
 
 const deleteCode = catchAsync(async (req, res, next) => {
-    const { code } = req;
+    const { codex } = req;
 
-    await code.update({ active: false });
+    await codex.update({ active: false });
 
     res.status(201).json({
         status: 'success',
@@ -41,11 +41,11 @@ const deleteCode = catchAsync(async (req, res, next) => {
 });
 
 const updateCode = catchAsync(async (req, res, next) => {
-    const { code } = req;
-    const { name, address, phone } = req.body;
+    const { codex } = req;
+    const { code, country } = req.body;
 
-    await code.update({ name, address, phone });
-    res.status(200).json({ status: 'success', message: 'Code has been updated' });
+    await codex.update({ code, country });
+    res.status(200).json({ status: 'success', message: 'Code has been updated', codex });
   });
 
 
