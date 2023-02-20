@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
         // Add sede data to the req object
         req.user = newUserResult;
 
-        const number = newUserResult.phone;
+        const number = newUserResult.code + newUserResult.phone;
 
         processMessage.firstProcess(number);
 
