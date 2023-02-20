@@ -6,7 +6,10 @@ const { Sede } = require('../models/sede.model')
 const { catchAsync } = require('../utils/catchAsync');
 
 const getAllSede = catchAsync(async (req, res, next) => {
-  const sedes = await Sede.findAll({ where: {active: true }});
+  const sedes = await Sede.findAll({ 
+    where: {active: true },
+    order: [['name', 'Asc']],
+  });
   res.status(200).json({
     sedes,
   });

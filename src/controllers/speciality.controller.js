@@ -6,7 +6,10 @@ const { Speciality } = require('../models/speciality.model')
 const { catchAsync } = require('../utils/catchAsync');
 
 const getAllSpeciality = catchAsync(async (req, res, next) => {
-  const specialities = await Speciality.findAll({ where: {active: true }});
+  const specialities = await Speciality.findAll({ 
+    where: {active: true },
+    order: [['name', 'ASC'],],
+  });
   res.status(200).json({
     specialities,
   });
@@ -25,8 +28,6 @@ const createSpeciality = catchAsync(async (req, res, next) => {
 
 const deleteSpeciality = catchAsync(async (req, res, next) => {
     const { speciality } = req;
-
-    console.log('hello:::')
 
     await speciality.update({ active: false });
 

@@ -25,7 +25,7 @@ const {
 // Apply protectToken middleware
 router.use(protectToken);
 
-router.get('/', protectAdmin, getAllSpeciality);
+router.get('/', getAllSpeciality);
 router.post('/', validateSpecialityFields, protectAdmin, createSpeciality);
 router.delete('/:id', specialityExists, protectAdmin, deleteSpeciality);
 router.patch('/:id', validateSpecialityFields, specialityExists, protectAdmin, updateSpeciality);

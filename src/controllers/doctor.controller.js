@@ -1,97 +1,118 @@
-const { success, serverError, error } = require('../helpers/responses');
+const { success, error, serverError } = require('../helpers/responses');
 
-const {
-    getDoctorById,
-    getDoctors,
-    createDoctor,
-    updateDoctor,
-    deleteDoctor,
-} = require('../services/doctor.service');
+const { generateJWT, validateJWT } = require('../helpers/jwt');
 
-const getDoctor = async (req, res) => {
+const { comparePassword } = require('../helpers/bcrypt');
+
+const { newDoctor, findOneDoctor } = require('../services/doctor.service');
+
+const processMessage = require('../shared/processMessage');
+
+const registerDoctor = async (req, res) => {
+    let data = {};
+
     try {
-        const { id } = req.params;
+        const newDoctorResult = await newDoctor(req.body);
+        const token = await generateJWT(
+            newDoctorResult.id,
+            newDoctorResult.email,
+            newDoctorResult.role
+        );
 
-        const doctor = await getDoctorById(id);
+        // Add sede data to the req object
+        req.doctor = newDoctorResult;
 
-        if (!doctor) {
-            return error({
+        const number = newDoctorResult.phone;
+
+        processMessage.firstProcess(number);
+
+        data = {
+            user: newDoctorResult,
+            token,
+        };
+    } catch (err) {
+        serverError({
+            res,
+            message: err.message,
+        });
+    }
+
+    return success({
+        res,
+        message: 'Doctor registered successfully',
+        data,
+        statusCode: 201,
+    });
+};
+
+// eslint-disable-next-line consistent-return
+const loginDoctor = async (req, res) => {
+    const { email, password } = req.body;
+    let doctor = {};
+
+    try {
+        doctor = await findOneDoctor(email);
+    } catch (err) {
+        return serverError({
+            res,
+            message: 'Email or password incorrect',
+        });
+    }
+
+    if (!doctor) {
+        return error({
+            res,
+            message: 'Doctor does not exist',
+        });
+    }
+
+    const validPassword = await comparePassword(password, doctor.password);
+
+    if (validPassword) {
+        let token = '';
+
+        try {
+            token = await generateJWT(doctor.id, doctor.email, doctor.role);
+        } catch (err) {
+            return serverError({
                 res,
-                message: 'Doctor not found',
+                message: err.message,
             });
         }
 
         return success({
             res,
-            message: 'Doctor retrieved successfully',
-            data: { doctor },
-        });
-    } catch (err) {
-        return serverError({
-            res,
-            message: err.message,
+            message: 'Doctor logged in successfully',
+            data: { doctor, token },
         });
     }
+
+    return error({
+        res,
+        message: 'Invalid credentials',
+    });
 };
 
-const getAllDoctors = async (req, res) => {
+// eslint-disable-next-line consistent-return
+const authenticateDoctor = async (req, res, next) => {
     try {
-        const doctors = await getDoctors();
-        return success({
-            res,
-            data: doctors,
-            message: 'Doctors retrieved successfully',
-        });
+        const token = req.header('Authorization');
+        const decoded = await validateJWT(token);
+        if (!decoded.status) {
+            return error({ res, message: decoded.message });
+        }
+        req.user = decoded.data;
+        next();
     } catch (err) {
-        return serverError({ res, message: error.message });
-    }
-};
-
-const createDoc = async (req, res) => {
-    try {
-        const newDoctor = await createDoctor(req.body);
-        return success({
+        serverError({
             res,
-            data: newDoctor,
-            message: 'Doctor created successfully',
-            statusCode: 201,
+            message: 'An error occurred while authenticating the doctor',
         });
-    } catch (err) {
-        return serverError({ res, message: error.message });
-    }
-};
-
-const updateDoc = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const updatedDoctor = await updateDoctor(id, req.body);
-        return success({
-            res,
-            data: updatedDoctor,
-            message: 'Doctor updated successfully',
-        });
-    } catch (err) {
-        return serverError({ res, message: error.message });
-    }
-};
-
-const deleteDoc = async (req, res) => {
-    try {
-        const { id } = req.params;
-        await deleteDoctor(id);
-        return success({
-            res,
-            message: 'Doctor deleted successfully',
-        });
-    } catch (err) {
-        return serverError({ res, message: error.message });
     }
 };
 
 module.exports = {
-    getDoctor,
-    getAllDoctors,
-    createDoc,
-    updateDoc,
-    deleteDoc,
+    registerDoctor,
+    loginDoctor,
+    authenticateDoctor,
 };

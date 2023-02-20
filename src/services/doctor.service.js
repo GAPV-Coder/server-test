@@ -1,61 +1,75 @@
 const { Doctor } = require('../models/doctor.model');
 
-const getDoctorById = async (id) => {
-    const doctor = await Doctor.findOne({ where: { id } });
+const { encryptPassword } = require('../helpers/bcrypt');
+
+const findById = async (id) => {
+    const doctor = await Doctor.findByPk({
+        where: { id, active: true },
+        attributes: [
+            'firstName',
+            'lastName',
+            'email',
+            'codeId',
+            'phone',
+            'role',
+        ],
+    });
+
     return doctor;
 };
 
-const getDoctors = async () => {
-    try {
-        const doctors = await Doctor.findAll({
-            attributes: { exclude: ['password'] },
-        });
-        return doctors;
-    } catch (error) {
-        throw new Error(error.message);
+const newDoctor = async ({
+    firstName,
+    lastName,
+    email,
+    codeId,
+    password,
+    phone,
+    role,
+    specialityId,
+    sedeId,
+}) => {
+    const existingDoctor = await findOneDoctor(email);
+    if (existingDoctor) {
+        throw new Error('Email already exists');
     }
+    const encrypted = await encryptPassword(password);
+
+    return Doctor.create({
+        firstName,
+        lastName,
+        email,
+        codeId,
+        password: encrypted,
+        phone,
+        role,
+        specialityId,
+        sedeId,
+    });
 };
 
-const createDoctor = async (newDoctor) => {
-    try {
-        const doctor = await Doctor.create(newDoctor);
-        return doctor;
-    } catch (error) {
-        throw new Error(error.message);
-    }
+const findOneDoctor = async (email) => {
+    return Doctor.findOne({ where: { email } });
 };
 
-const updateDoctor = async (id, updatedDoctor) => {
-    try {
-        const doctor = await Doctor.findOne({ where: { id } });
-        if (!doctor) {
-            throw new Error('Doctor not found');
-        }
-        await Doctor.update(updatedDoctor, { where: { id } });
-        const updated = await Doctor.findOne({ where: { id } });
-        return updated;
-    } catch (error) {
-        throw new Error(error.message);
+const updateDoctor = async (userData, email) => {
+    const doctor = await Doctor.findOne({ where: { email, active: true } });
+    if (!doctor) {
+        throw new Error('Doctor not found');
     }
+    const updatedDoctor = await doctor.update(userData);
+    return updatedDoctor;
 };
 
-const deleteDoctor = async (id) => {
-    try {
-        const doctor = await Doctor.findOne({ where: { id } });
-        if (!doctor) {
-            throw new Error('Doctor not found');
-        }
-        await Doctor.destroy({ where: { id } });
-        return { message: 'Doctor deleted successfully' };
-    } catch (error) {
-        throw new Error(error.message);
-    }
+const findMatch = async (query) => {
+    const matched = await Doctor.findOne(query);
+    return !!matched;
 };
 
 module.exports = {
-    getDoctorById,
-    getDoctors,
-    createDoctor,
+    newDoctor,
+    findOneDoctor,
     updateDoctor,
-    deleteDoctor,
+    findById,
+    findMatch,
 };

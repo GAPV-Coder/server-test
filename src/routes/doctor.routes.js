@@ -2,24 +2,19 @@ const express = require('express');
 
 const router = express.Router();
 
-const { isAuth } = require('../middlewares/isAuth');
-
 const {
-    createDoc,
-    getAllDoctors,
-    getDoctor,
-    updateDoc,
-    deleteDoc,
+    registerDoctor,
+    loginDoctor,
+    authenticateDoctor,
 } = require('../controllers/doctor.controller');
 
-router.post('/doctors', isAuth, createDoc);
+const {
+    validateRegisterFields,
+    validateLoginFields,
+} = require('../validators/doctor.validator');
 
-router.get('/doctors', isAuth, getDoctor);
+router.post('/register', validateRegisterFields, registerDoctor);
+router.post('/login', validateLoginFields, loginDoctor);
+router.use(authenticateDoctor);
 
-router.get('/doctors/:id', isAuth, getAllDoctors);
-
-router.put('/doctors/:id', isAuth, updateDoc);
-
-router.delete('/doctors/:id', isAuth, deleteDoc);
-
-module.exports = router;
+module.exports = { DoctorRouter: router };
