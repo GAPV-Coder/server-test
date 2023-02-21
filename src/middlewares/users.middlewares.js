@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/user.model');
+const { Doctor } = require('../models/doctor.model');
 
 // Utils
 const { catchAsync } = require('../utils/catchAsync');
@@ -108,6 +109,23 @@ next();
 });
 
 
+const doctorExists = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+
+  const doctor = await Doctor.findOne({
+    where: { id, active: true },
+    attributes: { exclude: ['password'] }
+  });
+
+  if (!doctor) {
+    return next(new AppError(`Doctor not found given that id: ${id}`, 404));
+  }
+
+  // Add user data to the req object
+  req.doctor = doctor;
+  next();
+});
+
 
 
 module.exports = {
@@ -115,4 +133,5 @@ module.exports = {
   protectToken,
   protectAccountOwner,
   protectAdmin,
+  doctorExists,
 };
