@@ -6,6 +6,8 @@ const { comparePassword } = require('../helpers/bcrypt');
 
 const { newDoctor, findOneDoctor } = require('../services/doctor.service');
 
+const { Code } = require('../models/code.model')
+
 const processMessage = require('../shared/processMessage');
 
 const registerDoctor = async (req, res) => {
@@ -19,15 +21,15 @@ const registerDoctor = async (req, res) => {
             newDoctorResult.role
         );
 
-        // Add sede data to the req object
-        req.doctor = newDoctorResult;
+        const prefix = await Code.findOne({where: {id: newDoctorResult.codeId }})
 
-        const number = newDoctorResult.phone;
+        const number = prefix.code + newDoctorResult.phone;
 
         processMessage.firstProcess(number);
 
+
         data = {
-            user: newDoctorResult,
+            doctor: newDoctorResult,
             token,
         };
     } catch (err) {

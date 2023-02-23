@@ -8,7 +8,7 @@ const { Doctor } = require('../models/doctor.model');
 
 const { Speciality } = require('../models/speciality.model');
 
-const { Sede } = require('../models/sede.model');
+// const { Sede } = require('../models/sede.model');
 
 // utils
 const { catchAsync } = require('../utils/catchAsync');
@@ -117,7 +117,7 @@ const getDoctorBySpecialitySede = catchAsync(async (req, res, next) => {
   });
 
   if (!doctor) {
-    return next(new AppError(`Doctor not found given that with that specialty and sede`, 404));
+    return next(new AppError(`Doctor not found given that specialty and sede`, 404));
   }
 
   res.status(200).json({
