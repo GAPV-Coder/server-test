@@ -56,6 +56,10 @@ const getAppointmentByUser = catchAsync(async (req, res, next) => {
 const createAppointment= catchAsync(async (req, res, next) => {
     const { type, userId, scheduleId } = req.body;
 
+    const schedule = await Schedule.findOne({id: scheduleId})
+
+    await schedule.update({status: 'not available'})
+
     const appointment = await Appointment.create({
       type,
       userId,
