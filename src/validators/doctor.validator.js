@@ -44,9 +44,9 @@ const validateRegisterFields = [
         .trim()
         .escape(),
 
-        check('codeId', 'Enter a valid code number')
+        check('codeId', 'Enter a valid code uuid')
         .exists()
-        .withMessage('Enter a valid format')
+        .withMessage('Enter a valid uuid format')
         .trim()
         .escape(),
 
