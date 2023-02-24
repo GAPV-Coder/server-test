@@ -41,7 +41,7 @@ const getScheduleByDoctorDate = catchAsync(async (req, res, next) => {
 
 const getAllSchedule = catchAsync(async (req, res, next) => {
   const schedule = await Schedule.findAll({ 
-    where: {active: true },
+    where: {active: true, status: 'available' },
     order: [['date', 'Asc']],
     order: [['hour', 'Asc']],
     attributes: { exclude: ['createdAt', 'updatedAt', 'active'] },

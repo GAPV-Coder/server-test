@@ -6,6 +6,7 @@ const {
     createAppointment,
     getAllAppointment,
     getAppointmentByUser,
+    cancelAppointment,
 } = require('../controllers/appointment.controller');
 
 // const {
@@ -28,7 +29,8 @@ router.use(protectToken);
 // routes:
 router.get('/', getAllAppointment);
 router.get('/:id', getAppointmentByUser);
-router.post('/', validateAppointmentFields, protectAdmin, createAppointment);
+router.post('/', validateAppointmentFields, createAppointment);
+router.get('/cancel/:id', cancelAppointment);
 
 
 module.exports = { AppointmentRouter: router };

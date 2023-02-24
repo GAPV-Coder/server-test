@@ -33,12 +33,13 @@ router.post('/login', validateLoginFields, loginDoctor);
 
 router.post('/register', validateRegisterFields, protectAdmin, registerDoctor);
 
+
 // Apply protectToken middleware
 router.use(protectToken);
 
-router.get('/', protectAdmin, getAllDoctors);
-router.get('/:id', protectAdmin, doctorExists, getDoctorById);
-router.get('/:specialityId/:sedeId', protectAdmin, getDoctorBySpecialitySede);
+router.get('/', getAllDoctors);
+router.get('/:id', doctorExists, getDoctorById);
+router.get('/:specialityId/:sedeId', getDoctorBySpecialitySede);
 // router.use(authenticateDoctor);
 
 
