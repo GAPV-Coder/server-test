@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 
 const { Schedule } = require('../models/schedule.model')
 const { Speciality } = require('../models/speciality.model')
@@ -95,6 +96,49 @@ const updateSchedule = catchAsync(async (req, res, next) => {
     res.status(200).json({ status: 'success', message: 'Schedule has been updated', schedule });
   });
 
+  const getScheduleBySedeSpecialityDate = catchAsync(async (req, res, next) => {
+    const { sedeId, specialityId, date } = req.params;
+  
+    // Obtiene la lista de doctores para la sede y especialidad indicadas
+    const doctors = await Doctor.findAll({ where: { sedeId, specialityId, active: true }});
+
+    // Obtiene los ids de los doctores encontrados
+    // const doctorIds = doctors.map(doctor => doctor.id);
+    // const doctorIds = doctors.map(doctor => doctor['id']);
+    const doctorIds = doctors.map(doctor => { return doctor.id; });
+    
+    // Obtiene los schedules para los doctores encontrados en la fecha indicada
+    const schedules = await Schedule.findAll({
+      where: {
+        doctorId: { [Op.in]: doctorIds },
+        date,
+        active: true,
+        status: 'available'
+    },
+    order: [['hour', 'ASC']],
+    attributes: { exclude: ['createdAt', 'updatedAt', 'active', 'status'] },
+    include: [
+      {
+        model: Doctor,
+        where: { active: true },
+        attributes: { exclude: ['id', 'createdAt', 'updatedAt', 'active', 'status', 'password', 'role', 'phone', 'codeId', 'specialityId', 'sedeId'] },
+        include: {
+          model: Speciality,
+          where: { active: true },
+          attributes: { exclude: ['createdAt', 'updatedAt', 'active', 'status', 'active', 'id'] }
+        }
+      }
+    ]
+  });
+
+  if (!schedules || schedules.length === 0) {
+    return next(new AppError(`Schedules not found for the given date and doctor`, 404));
+  }
+
+  res.status(200).json({
+    schedules
+  });
+});
 
 
 module.exports = {
@@ -103,4 +147,5 @@ module.exports = {
     updateSchedule,
     getAllSchedule,
     getScheduleByDoctorDate,
+    getScheduleBySedeSpecialityDate,
 };

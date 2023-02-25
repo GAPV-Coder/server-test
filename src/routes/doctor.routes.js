@@ -5,15 +5,12 @@ const router = express.Router();
 const {
     registerDoctor,
     loginDoctor,
-    authenticateDoctor,
 } = require('../controllers/doctor.controller');
 
 const {
 
     getAllDoctors,
     getDoctorById,
-    updateDoctor,
-    deleteDoctor,
     getDoctorBySpecialitySede,
 } = require('../controllers/doctor.controller2');
 
