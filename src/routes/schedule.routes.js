@@ -8,6 +8,7 @@ const {
     updateSchedule,
     getAllSchedule,
     getScheduleByDoctorDate,
+    getScheduleBySedeSpecialityDate,
 } = require('../controllers/schedule.controller');
 
 const {
@@ -33,6 +34,7 @@ router.post('/', validateScheduleFields, protectAdmin, createSchedule);
 router.delete('/:id', scheduleExists, protectAdmin, deleteSchedule);
 router.patch('/:id', validateScheduleFields, scheduleExists, protectAdmin, updateSchedule);
 router.get('/:doctorId/:date', getScheduleByDoctorDate);
+router.get('/:sedeId/:specialityId/:date', getScheduleBySedeSpecialityDate);
 
 
 module.exports = { ScheduleRouter: router };
