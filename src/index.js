@@ -23,6 +23,7 @@ const { CodeRouter } = require('./routes/code.routes');
 const { DoctorRouter } = require('./routes/doctor.routes')
 const { ScheduleRouter } = require('./routes/schedule.routes')
 const { AppointmentRouter } = require('./routes/appointment.routes')
+const passwordResetRouter = require('./routes/passwordReset');
 
 // Enable CORS
 app.use(cors());
