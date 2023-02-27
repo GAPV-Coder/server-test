@@ -1,10 +1,8 @@
 //Modificar rutas
 
 app.post ("/", (req, res) =>{
+  async function envioMail() {
     const { usuario,email } = req.body;
-      console.log(usuario);
-      console.log(email);
-      async function envioMail(){
         let transporter = nodemailer.createTransport({
           host: "smtp.gmail.com",
           port: 465,

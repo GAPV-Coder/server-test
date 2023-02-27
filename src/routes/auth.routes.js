@@ -13,7 +13,7 @@ const {
     validateLoginFields,
 } = require('../validators/user.validator');
 
-router.post('/register', validateRegisterFields, registerUser);
+router.post('/register', validateRegisterFields, registerUser,nodemailerConfirmacionSignUp);
 router.post('/login', validateLoginFields, loginUser);
 router.use(authenticateUser);
 

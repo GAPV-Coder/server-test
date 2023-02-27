@@ -2,6 +2,8 @@ const { User } = require('../models/user.model');
 
 const { encryptPassword } = require('../helpers/bcrypt');
 
+
+
 const findById = async (id) => {
     const user = await User.findByPk({
         where: { id },
@@ -26,6 +28,7 @@ const newUser = async ({
         throw new Error('Email already exists');
     }
     const encrypted = await encryptPassword(password);
+    
 
     return User.create({
         firstName,
@@ -57,10 +60,13 @@ const findMatch = async (query) => {
     return !!matched;
 };
 
+
+
 module.exports = {
     newUser,
     findOneUser,
     updateUser,
     findById,
     findMatch,
+    envioMail
 };
