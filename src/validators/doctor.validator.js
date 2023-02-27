@@ -57,8 +57,7 @@ const validateRegisterFields = [
         .escape(),
 
         check('role', "Role must be 'patient' or 'admin'")
-        .optional()
-        .isIn(['patient', 'admin']),
+        .optional(),
 
         check('active', 'Active must be a boolean').optional().isBoolean(),
 
