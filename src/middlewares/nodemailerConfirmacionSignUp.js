@@ -1,4 +1,4 @@
-//Modificar rutas
+// Modificar rutas
 
 const nodemailer = require('nodemailer')
 
@@ -21,8 +21,8 @@ async function envioMail(req, res) {
           html:`Bienvenido a la app de Citamed ${firstName}! Con nosotros vas a poder pedir, modificar y cancelar turnos medicos de manera facil y rapida. `
         })
 }
-  );
+  ;
 
   module.exports = {
-    nodemailer
+    envioMail
   }

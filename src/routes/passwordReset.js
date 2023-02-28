@@ -10,5 +10,5 @@ router.post('/password', passwordEmail);
 router.post('/password/:token', passwordReset);
 
 
-module.exports = router;
+module.exports = { passwordResetRouter: router };
 
