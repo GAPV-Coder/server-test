@@ -1,14 +1,7 @@
 //Modificar rutas
 
-app.post ("/views/index.hbs", (req, res) =>{
+app.post ("/", (req, res) =>{
     const { user,email,especialidad,profesional,sanatorio,diaTurno,horaTurno } = req.body;
-      console.log(user);
-      console.log(email);
-      console.log(especialidad);
-      console.log(profesional);
-      console.log(sanatorio);
-      console.log(diaTurno);
-      console.log(horaTurno);
       async function envioMail(){
         let transporter = nodemailer.createTransport({
           host: "smtp.gmail.com",
@@ -27,7 +20,6 @@ app.post ("/views/index.hbs", (req, res) =>{
           con el/la ${profesional} en el sanatorio ${sanatorio} el dia ${diaTurno} a las ${horaTurno}.
           Si queres modificar tu turno ingresa al siguiente link .......... `
         })
-          res.render("confirmacionTurno");
       }
       envioMail()
   });

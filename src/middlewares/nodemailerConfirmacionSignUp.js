@@ -20,8 +20,7 @@ async function envioMail(req, res) {
           subject:"Alta de usuario",
           html:`Bienvenido a la app de Citamed ${firstName}! Con nosotros vas a poder pedir, modificar y cancelar turnos medicos de manera facil y rapida. `
         })
-          res.render("confirmacionSingUp");
-      }
+}
   );
 
   module.exports = {
