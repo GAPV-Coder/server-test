@@ -2,7 +2,7 @@
 
 app.post ("/", (req, res) =>{
     const { user,email,especialidad,profesional,sanatorio,diaTurno,horaTurno } = req.body;
-      async function envioMail(){
+      async function mailConfirmacion(){
         let transporter = nodemailer.createTransport({
           host: "smtp.gmail.com",
           port: 465,
@@ -17,11 +17,11 @@ app.post ("/", (req, res) =>{
           to: `${email}`,
           subject:"Reserva de turno",
           html:`Hola ${user}. Te confirmamos la reserva de tu turno para la especialidad ${especialidad},
-          con el/la ${profesional} en el sanatorio ${sanatorio} el dia ${diaTurno} a las ${horaTurno}.
+          con el/la dr./dra. ${profesional} en el sanatorio ${sanatorio} el dia ${diaTurno} a las ${horaTurno}.
           Si queres modificar tu turno ingresa al siguiente link .......... `
         })
       }
-      envioMail()
+      mailConfirmacion()
   });
 
   module.exports = {
