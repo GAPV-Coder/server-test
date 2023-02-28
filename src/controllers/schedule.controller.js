@@ -121,7 +121,7 @@ const updateSchedule = catchAsync(async (req, res, next) => {
       {
         model: Doctor,
         where: { active: true },
-        attributes: { exclude: ['id', 'createdAt', 'updatedAt', 'active', 'status', 'password', 'role', 'phone', 'codeId', 'specialityId', 'sedeId'] },
+        attributes: { exclude: ['id', 'createdAt', 'updatedAt', 'active', 'status', 'password', 'phone', 'codeId', 'specialityId', 'sedeId'] },
         include: {
           model: Speciality,
           where: { active: true },
@@ -136,7 +136,7 @@ const updateSchedule = catchAsync(async (req, res, next) => {
   }
 
   res.status(200).json({
-    schedules
+    schedules,
   });
 });
 
