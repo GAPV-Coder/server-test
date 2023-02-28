@@ -45,9 +45,9 @@ const passwordEmail = catchAsync(async (req, res, next) => {
         const mailOptions = {
             from: process.env.USEREMAIL,
             to: email,
-            subject: 'Password Reset Request',
-            text: `Click the following link to reset your password: ${resetUrl}`,
-            html: `<p>Click the following link to reset your password:</p><a href="${resetUrl}">Reset Password</a>`,
+            subject: 'Recuperacion de contraseña',
+            text: `Hace click en el siguiente link para cambiar tu contraseña: ${resetUrl}`,
+            html: `<p>Hace click en el siguiente link para cambiar tu contraseña:</p><a href="${resetUrl}">Reset Password</a>`,
         };
   
         // Send the email
