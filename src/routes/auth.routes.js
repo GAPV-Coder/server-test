@@ -2,6 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
+const {envioMail} = require('../middlewares/nodemailerConfirmacionSignUp')
+
 const {
     registerUser,
     loginUser,
@@ -13,7 +15,7 @@ const {
     validateLoginFields,
 } = require('../validators/user.validator');
 
-router.post('/register', validateRegisterFields, registerUser);
+router.post('/register', validateRegisterFields, registerUser,envioMail);
 router.post('/login', validateLoginFields, loginUser);
 router.use(authenticateUser);
 
